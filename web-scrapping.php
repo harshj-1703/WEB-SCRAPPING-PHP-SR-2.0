@@ -11,15 +11,34 @@
 <!-- <br>
 <img src="<?php //echo $html->find('table',0)->find('img',0)->src ?>" alt="" srcset="">
 <br> -->
+
+<!-- --------------------------------------------------------------------------------------------------------------------------------- -->
 <?php
 
 session_start();
 
-include('./simple_html_dom.php');
-
 $username = $_SESSION['username'];
 
-$html = file_get_html('https://en.wikipedia.org/wiki/India');
-echo $html;
+// include('./simple_html_dom.php');
 
-echo "<br>$username</br>";
+// $html = file_get_html('https://www.instagram.com');
+// echo $html;
+
+// echo "<br>$username</br>";
+//-------------------------------------------------------------------------------------------------------------------------------------
+
+use Phpfastcache\Helper\Psr16Adapter;
+require __DIR__ . '/../vendor/autoload.php';
+
+//with cred.
+// $instagram = \InstagramScraper\Instagram::withCredentials(new \GuzzleHttp\Client(), 'username', 'password', new Psr16Adapter('Files'));
+// $instagram->setUserAgent('User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0');
+// $instagram->login(false, true);
+// $instagram->saveSession();
+
+//without cred.
+$instagram = new \InstagramScraper\Instagram(new \GuzzleHttp\Client());
+
+$account = $instagram->getAccount('kevin');
+
+echo $account->getFullName();
